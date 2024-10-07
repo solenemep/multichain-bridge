@@ -1,66 +1,36 @@
-## Foundry
-
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
-
-Foundry consists of:
-
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
-
-## Documentation
-
-https://book.getfoundry.sh/
-
-## Usage
-
-### Build
-
-```shell
-$ forge build
-```
+Multichain bridge implementing Across protocol
 
 ### Test
 
 ```shell
-$ forge test
-```
-
-### Format
-
-```shell
-$ forge fmt
-```
-
-### Gas Snapshots
-
-```shell
-$ forge snapshot
-```
-
-### Anvil
-
-```shell
-$ anvil
+$ make test-all
 ```
 
 ### Deploy
 
 ```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
+$ make deploy-all
 ```
 
-### Cast
+### Back-end integration
 
-```shell
-$ cast <subcommand>
-```
+Before interacting with contract, back-end must collect data.
 
-### Help
+Let's say depositor wants to bridge `tokenAmount` of `tokenAddress` from `originChainId` to `destinationChainId`.
 
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
-```
+Back-end will first call our AcrossRelayer contract.
+The method `getInputAmount` with input param the total `tokenAmount` will return 2 outputs :
+
+- the `acrossAmount` that is `tokenAmount - feeAmount`
+- the `feeAmount` which AccrosRelayer will send to fee receiver
+
+Then, let's fetch `suggested-fees` from API :
+`https://app.across.to/api/suggested-fees?token=${tokenAddress}&originChainId=${originChainId}&destinationChainId=${destinationChainId}&amount=${acrossAmount}`
+
+This will provide the 2 following parameters to call `brigdeNative` and `bridgeERC20` :
+
+- `totalRelayFee`
+
+### Notes
+
+SpokePool on Polygon does not have enabled deposit routes for native tokens at the moment.

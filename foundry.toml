@@ -2,5 +2,37 @@
 src = "src"
 out = "out"
 libs = ["lib"]
+test = 'test'
+cache_path  = 'cache_forge'
 
-# See more config options https://github.com/foundry-rs/foundry/blob/master/crates/config/README.md#all-options
+fuzz.max_test_rejects = 100000000
+
+solc = "0.8.27"
+evm_version = "shanghai"
+
+[rpc_endpoints]
+arbitrum = "${ARBITRUM_RPC_URL}"
+base = "${BASE_RPC_URL}"
+blast = "${BLAST_RPC_URL}"
+ethereum = "${ETHEREUM_RPC_URL}"
+linea = "${LINEA_RPC_URL}"
+lisk = "${LISK_RPC_URL}"
+mode = "${MODE_RPC_URL}"
+optimism = "${OPTIMISM_RPC_URL}"
+polygon = "${POLYGON_RPC_URL}"
+redstone = "${REDSTONE_RPC_URL}"
+scroll = "${SCROLL_RPC_URL}"
+zksync = "${ZKSYNC_RPC_URL}"
+zora = "${ZORA_RPC_URL}"
+
+[etherscan]
+
+[fmt]
+line_length = 120
+tab_width = 4
+bracket_spacing = true
+int_types = "long"
+func_attrs_with_params_multiline = true
+quote_style = "double"
+number_underscore = "preserve"
+
