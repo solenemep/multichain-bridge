@@ -29,8 +29,13 @@ Then, let's fetch `suggested-fees` from API :
 
 This will provide the 2 following parameters to call `brigdeNative` and `bridgeERC20` :
 
-- `totalRelayFee`
+- `totalRelayFee.total` used as `_relayFee` in our contract
+- `timestamp` used as `_quoteTimestamp` in our app
 
 ### Notes
+
+To bridge native tokens, user must call `bridgeNative` method, with `msg.value > 0`.
+
+To bridge ERC20 tokens, user must call `bridgeERC20` method, with according `_tokenAddress` and `_inputAmount`. But first he must approve AcrossRelayer contract to spend his tokens.
 
 SpokePool on Polygon does not have enabled deposit routes for native tokens at the moment.
